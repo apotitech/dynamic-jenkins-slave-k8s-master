@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins-instance
+  namespace: jenkins-instance
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: master
+    spec:
+      containers:
+        - image: digitalvarys/jenkins
+          name: jenkins-instance
+          ports:
+            - containerPort: 8080
+              name: jenkins-port
+            - containerPort: 3838
+              name: jenkins-sd-port
+          env:
+            - name: JAVA_OPTS
+              value: -Djenkins.install.runSetupWizard=false
